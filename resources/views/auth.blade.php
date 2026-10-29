@@ -1,0 +1,4 @@
+@extends('layout')
+@section('content')
+<div class="row justify-content-center"><div class="col-md-6 col-lg-4"><h2>{{ $register?'Đăng ký tài khoản':'Đăng nhập' }}</h2><form method="post" action="{{ url($register?'/register':'/login') }}">@csrf @if($register)<label>Họ tên</label><input class="form-control mb-3" name="name" required value="{{ old('name') }}">@endif<label>Email</label><input class="form-control mb-3" type="email" name="email" required value="{{ old('email') }}"><label>Mật khẩu</label><input class="form-control mb-3" type="password" name="password" required>@if($register)<label>Nhập lại mật khẩu</label><input class="form-control mb-3" type="password" name="password_confirmation" required>@endif<button class="btn btn-primary">{{ $register?'Đăng ký':'Đăng nhập' }}</button></form></div></div>
+@endsection

@@ -1,0 +1,38 @@
+[
+  {
+    "name": "EShopper Flagship Store — Quận 1",
+    "address": "68 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh",
+    "lat": 10.7743,
+    "lng": 106.7027,
+    "phone": "028 3822 9999",
+    "hours": "08:30 – 22:00",
+    "is_main": true
+  },
+  {
+    "name": "EShopper Fashion Outlet — Quận 3",
+    "address": "142 Hai Bà Trưng, Phường Đa Kao, Quận 3, TP. Hồ Chí Minh",
+    "lat": 10.7831,
+    "lng": 106.6961,
+    "phone": "028 3823 8888",
+    "hours": "09:00 – 21:30",
+    "is_main": false
+  },
+  {
+    "name": "EShopper Vincom Plaza — Thủ Đức",
+    "address": "216 Võ Văn Ngân, Phường Bình Thọ, TP. Thủ Đức, TP. Hồ Chí Minh",
+    "lat": 10.8507,
+    "lng": 106.7719,
+    "phone": "028 3722 7777",
+    "hours": "09:30 – 22:00",
+    "is_main": false
+  },
+  {
+    "name": "EShopper Pearl Plaza — Bình Thạnh",
+    "address": "561A Điện Biên Phủ, Phường 25, Quận Bình Thạnh, TP. Hồ Chí Minh",
+    "lat": 10.7997,
+    "lng": 106.7188,
+    "phone": "028 3512 6666",
+    "hours": "09:00 – 22:00",
+    "is_main": false
+  }
+]
