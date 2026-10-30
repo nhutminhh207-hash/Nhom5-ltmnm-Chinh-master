@@ -203,12 +203,29 @@
     </header>
 
     <main class="container-fluid px-xl-5 py-4 shop-main">
-        @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
+        {{-- Thông báo lỗi truy cập từ Middleware --}}
+        @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle mr-2"></i>
+            {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         @endif
 
+        {{-- Thông báo thành công --}}
+        @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle mr-2"></i>
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        @endif
+
+        {{-- Thông báo Validation --}}
         @if($errors->any())
         <div class="alert alert-danger">
             <ul class="mb-0">
@@ -225,7 +242,7 @@
     <footer class="bg-dark text-white pt-5 pb-3">
         <div class="container-fluid px-xl-5">
             <div class="row">
-                <!-- Cột 1: Brand & Giới thiệu (4 cột) -->
+                <!-- Cột 1: Brand & Giới thiệu -->
                 <div class="col-lg-4 col-md-6 mb-4">
                     <h3 class="font-weight-bold text-white mb-3">Zara</h3>
                     <p class="text-white-50 small mb-3">
@@ -233,7 +250,7 @@
                     </p>
                 </div>
 
-                <!-- Cột 2: Điều hướng nhanh (2 cột) -->
+                <!-- Cột 2: Điều hướng nhanh -->
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h5 class="font-weight-bold text-white mb-3 text-uppercase small" style="letter-spacing: 1px;">Liên kết</h5>
                     <ul class="list-unstyled mb-0">
@@ -243,7 +260,7 @@
                     </ul>
                 </div>
 
-                <!-- Cột 3: Danh mục sản phẩm (3 cột) -->
+                <!-- Cột 3: Danh mục sản phẩm -->
                 <div class="col-lg-3 col-md-6 mb-4">
                     <h5 class="font-weight-bold text-white mb-3 text-uppercase small" style="letter-spacing: 1px;">Danh mục</h5>
                     <ul class="list-unstyled mb-0">
@@ -257,7 +274,7 @@
                     </ul>
                 </div>
 
-                <!-- Cột 4: Liên hệ & Hỗ trợ (3 cột - Giúp lấp đầy khoảng trống) -->
+                <!-- Cột 4: Liên hệ & Hỗ trợ -->
                 <div class="col-lg-3 col-md-6 mb-4">
                     <h5 class="font-weight-bold text-white mb-3 text-uppercase small" style="letter-spacing: 1px;">Liên hệ</h5>
                     <p class="text-white-50 small mb-2"><i class="fas fa-map-marker-alt mr-2"></i> 140 Lê Trọng Tấn, Phường Tây Thạnh, Quận Tân Phú, TP. Hồ Chí Minh, Việt Nam</p>

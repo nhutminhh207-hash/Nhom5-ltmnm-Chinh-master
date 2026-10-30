@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{AuthController, CategoryController, ProductController, CartController, OrderController, FoundationController};
 /*
 |--------------------------------------------------------------------------
-| Web Routes - Hệ thống Thời trang EShopper
+| Web Routes - Hệ thống Thời trang Zara
 |--------------------------------------------------------------------------
 | Phân công trách nhiệm:
 | - Châu (CN01): Quản lý Danh mục (Categories CRUD) + Layout UI
