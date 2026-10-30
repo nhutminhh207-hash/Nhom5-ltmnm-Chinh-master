@@ -26,16 +26,16 @@
         <div class="card-body p-4">
           <div class="row align-items-center">
             <div class="col-md-3 text-center border-right">
-              <i class="fa fa-sun fa-4x text-warning mb-2"></i>
-              <h3 class="font-weight-bold mb-0 text-dark">31°C</h3>
-              <p class="text-muted mb-0">TP. Hồ Chí Minh — Nắng ấm</p>
+              <i id="weather-icon" class="fa fa-sun fa-4x text-warning mb-2"></i>
+              <h3 id="weather-temp" class="font-weight-bold mb-0 text-dark">--°C</h3>
+              <p class="text-muted mb-0">TP. Hồ Chí Minh — <span id="weather-desc">Đang tải...</span></p>
             </div>
             <div class="col-md-9 pt-3 pt-md-0 pl-md-4">
               <h5 class="font-weight-bold text-primary mb-2">
                 <i class="fa fa-tshirt mr-2"></i>Gợi ý trang phục thời trang phù hợp hôm nay
               </h5>
-              <p class="mb-2 text-dark">
-                Thời tiết nắng ráo với nhiệt độ lý tưởng cho các hoạt động ngoài trời. Zara gợi ý bạn chọn các mẫu <strong>Áo thun cotton thoáng khí</strong> hoặc <strong>Áo sơ mi ngắn tay</strong> kết hợp với <strong>Quần short/kaki mát mẻ</strong>.
+              <p id="weather-suggestion" class="mb-2 text-dark">
+                Đang cập nhật gợi ý thời tiết...
               </p>
               <div>
                 <a href="/shop?category_id=1" class="btn btn-sm btn-outline-primary mr-2 font-weight-bold">
@@ -116,7 +116,6 @@
   </div>
 </div>
 </div>
-
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
@@ -134,9 +133,8 @@
   const showrooms = [defaultLocation];
 
   document.addEventListener('DOMContentLoaded', function() {
+    // 1. KHỞI TẠO BẢN ĐỒ LEAFLET
     const store = showrooms[0];
-
-    // Khởi tạo bản đồ canh giữa tại 140 Lê Trọng Tấn
     map = L.map('showroomMap').setView([store.lat, store.lng], 16);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -144,7 +142,6 @@
       attribution: '&copy; OpenStreetMap contributors | Zara Store Locator'
     }).addTo(map);
 
-    // Thêm ghim vị trí cho cơ sở 140 Lê Trọng Tấn
     const marker = L.marker([store.lat, store.lng]).addTo(map);
     marker.bindPopup(`
       <div style="min-width: 200px;">
@@ -154,6 +151,72 @@
         <small><strong>Giờ mở cửa:</strong> ${store.hours}</small>
       </div>
     `).openPopup();
+
+    // 2. GỌI API THỜI TIẾT KHỞI TẠO VÀ XỬ LÝ GỢI Ý TRANG PHỤC
+    const apiKey = '52a56f853a1363ee01f988a7ef28a989';
+    const lat = 10.8062;
+    const lon = 106.6286;
+
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=vi&appid=${apiKey}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data && data.cod === 200) {
+          const temp = Math.round(data.main.temp);
+          const desc = data.weather[0].description; // ví dụ: "mây đen u ám", "mưa nhẹ", "nắng ráo"...
+          const weatherId = data.weather[0].id; // Mã thời tiết OpenWeatherMap
+          const mainState = data.weather[0].main; // Rain, Clouds, Clear, Thunderstorm...
+
+          // Cập nhật nhiệt độ & mô tả
+          const tempElem = document.getElementById('weather-temp');
+          const descElem = document.getElementById('weather-desc');
+          if (tempElem) tempElem.innerText = `${temp}°C`;
+          if (descElem) descElem.innerText = desc.charAt(0).toUpperCase() + desc.slice(1);
+
+          // Xử lý Logic Gợi ý Trang Phục phù hợp với từng trạng thái API
+          let iconClass = 'fa-sun text-warning';
+          let suggestion = '';
+
+          // TH 1: Mưa hoặc dông bão (Mã 2xx, 3xx, 5xx)
+          if (weatherId >= 200 && weatherId < 600) {
+            iconClass = 'fa-cloud-showers-heavy text-info';
+            suggestion = 'Trời đang có mưa. Hãy ưu tiên các mẫu áo thun gọn nhẹ, chất liệu cotton mau khô và nhớ mang theo áo khoác chống nước nhẹ khi ra ngoài.';
+          }
+          // TH 2: Mây đen u ám / Âm u (Mã 804 hoặc mô tả chứa từ "u ám", "âm u")
+          else if (weatherId === 804 || desc.includes('u ám') || desc.includes('âm u')) {
+            iconClass = 'fa-cloud text-secondary';
+            suggestion = 'Trời nhiều mây đen u ám và dễ có mưa bất chợt. Bạn nên diện outfit gọn nhẹ như áo thun, áo sơ mi khoác ngoài kết hợp quần kaki/jean năng động.';
+          }
+          // TH 3: Râm mát / Mây rải rác (Mã 801, 802, 803)
+          else if (mainState === 'Clouds') {
+            iconClass = 'fa-cloud-sun text-primary';
+            suggestion = 'Thời tiết râm mát, dễ chịu. Rất thích hợp để phối outfit layer thời trang như áo sơ mi khoác ngoài áo thun, hoặc áo thun dài tay thanh lịch.';
+          }
+          // TH 4: Nắng nóng (Nhiệt độ >= 32°C hoặc Trời quang nắng gắt)
+          else if (temp >= 32) {
+            iconClass = 'fa-sun text-danger';
+            suggestion = 'Trời khá oi bức và nắng nóng. Gợi ý bạn chọn các mẫu áo thun cotton thoáng khí, áo sơ mi ngắn tay chất liệu đũi/linen mát mẻ.';
+          }
+          // TH 5: Se lạnh (Nhiệt độ < 24°C)
+          else if (temp < 24) {
+            iconClass = 'fa-snowflake text-primary';
+            suggestion = 'Thời tiết se lạnh dễ chịu. Phù hợp để diện áo cardigan, áo sweater mỏng hoặc áo khoác mỏng phối cùng quần dài.';
+          }
+          // TH 6: Mặc định (Nắng nhẹ / Đẹp trời)
+          else {
+            iconClass = 'fa-sun text-warning';
+            suggestion = 'Thời tiết ráo đẹp với nhiệt độ lý tưởng cho các hoạt động ngoài trời. Bạn có thể thoải mái chọn áo thun cotton hoặc áo sơ mi ngắn tay mát mẻ.';
+          }
+
+          // Cập nhật DOM
+          const iconElem = document.getElementById('weather-icon');
+          const suggestionElem = document.getElementById('weather-suggestion');
+          if (iconElem) iconElem.className = `fa ${iconClass} fa-4x mb-2`;
+          if (suggestionElem) suggestionElem.innerText = suggestion;
+        }
+      })
+      .catch(err => {
+        console.error("Lỗi khi kết nối API thời tiết:", err);
+      });
   });
 
   function panToLocation(lat, lng, name) {
@@ -164,5 +227,4 @@
     }
   }
 </script>
-
 @endsection
