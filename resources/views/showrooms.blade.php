@@ -122,7 +122,7 @@
 <script>
   let map;
   const defaultLocation = {
-    name: 'Z Store',
+    name: 'Zara Store',
     address: '140 Lê Trọng Tấn, Phường Tây Thạnh, Quận Tân Phú, TP. Hồ Chí Minh',
     phone: '028 3816 1166',
     hours: '08:00 - 22:00 (Tất cả các ngày)',
