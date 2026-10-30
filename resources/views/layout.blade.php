@@ -61,6 +61,37 @@
         .nav-shop .dropdown-item {
             padding: 10px 20px;
         }
+
+        .brand-title {
+            font-family: "Bodoni Moda", "Playfair Display", serif;
+            font-weight: 800;
+            font-size: 3rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #111111;
+            line-height: 1;
+            margin: 0;
+        }
+
+        .brand-subtitle {
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: #6c757d;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .brand-logo-wrapper:hover .brand-title {
+            opacity: 0.8;
+        }
+
+        .brand-logo-wrapper {
+            transition: opacity 0.3s ease;
+        }
+
+        .brand-logo-wrapper:hover {
+            opacity: 0.7;
+        }
     </style>
 </head>
 
@@ -72,11 +103,10 @@
     <header class="container-fluid px-xl-5 py-4 bg-white border-bottom">
         <div class="row align-items-center">
             <!-- Logo Zara -->
-            <div class="col-md-4">
-                <a href="{{ url('/') }}" class="text-decoration-none">
-                    <h1 class="m-0 font-weight-bold text-dark" style="letter-spacing: 2px;">
-                        Zara<span class="text-muted"></span>
-                    </h1>
+            <div class="col-md-4 py-2">
+                <a href="{{ url('/') }}" class="text-decoration-none brand-logo-wrapper">
+                    <h1 class="brand-title">ZARA</h1>
+                    <div class="brand-subtitle mt-1">FASHION SHOP</div>
                 </a>
             </div>
 

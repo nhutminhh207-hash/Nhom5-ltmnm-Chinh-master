@@ -15,11 +15,11 @@ class DatabaseSeeder extends Seeder
             return;
         }
         DB::transaction(function () {
-            $admin = User::create(['name' => 'Admin demo', 'email' => 'admin@example.test', 'password' => 'DemoShop2026!', 'role' => 'admin']);
+            $admin = User::create(['name' => 'Admin de  mo', 'email' => 'admin@example.test', 'password' => 'DemoShop2026!', 'role' => 'admin']);
             $a = User::create(['name' => 'User A demo', 'email' => 'usera@example.test', 'password' => 'DemoShop2026!', 'role' => 'user']);
             $b = User::create(['name' => 'User B demo', 'email' => 'userb@example.test', 'password' => 'DemoShop2026!', 'role' => 'user']);
             $cats = [];
-            foreach (['ao-thun' => 'Áo thun', 'ao-so-mi' => 'Áo sơ mi', 'quan' => 'Quần'] as $slug => $name) $cats[] = Category::create(compact('slug', 'name'));
+            foreach (['ao-thun' => 'Áo thun', 'ao-so-mì' => 'Áo sơ mi', 'quan' => 'Quần'] as $slug => $name) $cats[] = Category::create(compact('slug', 'name'));
             for ($i = 1; $i <= 15; $i++) {
                 $p = Product::create(['category_id' => $cats[($i - 1) % 3]->id, 'name' => "Sản phẩm demo $i", 'slug' => "san-pham-demo-$i", 'description' => 'Bộ sưu tập thời trang Zara. Chất liệu thoáng mát, phù hợp đi học và đi làm.', 'image_index' => (($i - 1) % 8) + 1, 'is_active' => true]);
                 foreach ([['M', 'Đen', 0], ['L', 'Trắng', 10000]] as [$size, $color, $bonus]) $p->variants()->create(['sku' => 'DEMO-' . str_pad($i, 2, '0', STR_PAD_LEFT) . '-' . $size, 'size' => $size, 'color' => $color, 'price' => 150000 + $i * 1000 + $bonus, 'stock' => $i === 1 ? 0 : ($i === 2 ? 1 : 20), 'is_active' => true]);
